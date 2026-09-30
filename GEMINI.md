@@ -27,5 +27,5 @@ After each task's check passes, tell the participant to restart the playground (
 - **No Touching Other Participants' Agents**: Only interact with `acsm-agent-<this-participant>`.
 - **Models**: Use only `gemini-3.8-flash` (`config.MODEL`) and `gemini-embedding-001` (`config.EMBED_MODEL`). Never introduce older or deprecated model versions.
 - **Region**: Keep `asia-southeast1` (`config.REGION`).
-- **No Hardcoded IDs**: Read project, bucket, dataset, and corpus from `app/config.py` (populated by `.lab.env` via `make configure`).
+- **No Hardcoded IDs**: Read project, bucket and dataset from `app/config.py` (populated by `.lab.env` via `make configure`).
 - **Preserve Audit Denial Contract**: `lookup_restricted_audit_log` must catch `Forbidden` and return `{"status": "PERMISSION_DENIED", ...}` rather than raising.

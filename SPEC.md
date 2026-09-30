@@ -5,7 +5,7 @@ You are building an ADK agent for AEON Credit Service (M) Berhad (`acsm-agent-bu
 ## Fixed Platform Contract (Do Not Change)
 
 - **Models**: `gemini-3.8-flash` (`config.MODEL`) for generation; `gemini-embedding-001` (`config.EMBED_MODEL`, 768 dimensions `config.EMBED_DIM`) for embeddings. Never reference older or deprecated model versions.
-- **Region**: `asia-southeast1` (`config.REGION`) for Agent Runtime, BigQuery, RAG Engine and Model Armor. Model calls use `GOOGLE_CLOUD_LOCATION=global`.
+- **Region**: `asia-southeast1` (`config.REGION`) for Agent Runtime, BigQuery, Memory Bank and Model Armor. Model calls use `GOOGLE_CLOUD_LOCATION=global`.
 - **Shared Runtime Service Account**: Every participant deploys with the shared service account `acsm-lab-agent@<project>.iam.gserviceaccount.com` (`--service-account` in `Makefile`). Never pass `--agent-identity`, never run Terraform, and never modify IAM.
 - **Per-Participant Agent Name**: Every deployed agent is named `acsm-agent-<owner>` via `make deploy OWNER=<participant-name>`. Before running `make deploy`, always ask the participant for their name if they have not provided `OWNER=<name>`.
 - **Local Testing**: The participant runs `make playground` (terminal 1, http://localhost:8000) and `make local-chat Q="..."` (terminal 2). Never start `make playground` yourself; it blocks the terminal. You may run `make local-chat` once the participant confirms the playground is up.
@@ -136,7 +136,7 @@ Expect a `search_policy_corpus` tool call, **RM 2,000** from `POL-CR-001-v2` wit
        except Exception as exc:
            logger.debug("Memory persistence skipped: %s", exc)
    ```
-2. In both `create_bq_rag_agent` and `create_rag_engine_agent`:
+2. In `create_bq_rag_agent`:
    - Add `preload_memory` to `tools=[...]`.
    - Set `after_agent_callback=_persist_session_to_memory`.
 
@@ -161,7 +161,7 @@ Expect the second answer to name Johor Bahru and Platinum Visa. Locally the memo
 `app/agent.py` (the callback implementation in `app/governance/policy_guard.py` is already provided).
 
 ### Requirements
-In `_build_audit_subagent`, `create_bq_rag_agent`, and `create_rag_engine_agent` in `app/agent.py`, replace `before_model_callback=None` and `before_tool_callback=None` with:
+In `_build_audit_subagent` and `create_bq_rag_agent` in `app/agent.py`, replace `before_model_callback=None` and `before_tool_callback=None` with:
 ```python
 before_model_callback=before_model_governance_guard,
 before_tool_callback=before_tool_governance_guard,
