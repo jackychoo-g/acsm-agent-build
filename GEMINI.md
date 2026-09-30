@@ -12,10 +12,14 @@ Instructions for any coding agent (Antigravity VS Code extension, Antigravity 2.
 
 Always read [`SPEC.md`](SPEC.md) first and implement the tasks in order, running the acceptance command after each task:
 
+- **Task 0 (baseline, no code changes)**: the participant runs the starting agent in the local playground. Do not edit files for Task 0.
+
 - **Task 1 (BigQuery RAG tool + citation contract)**: edit `app/tools/policy_search.py` and `app/agent.py`, then run `make check-task1`.
 - **Task 2 (Sessions & Memory Bank recall)**: edit `app/agent.py`, then run `make check-task2`.
 - **Task 3 (Governance callbacks: PDPA MyKad + Model Armor)**: edit `app/agent.py`, then run `make check-task3`.
 - **Task 4 (Golden evaluation case)**: edit `tests/eval/datasets/acsm_golden.json`, then run `make check-task4` and `make verify`.
+
+After each task's check passes, tell the participant to restart the playground (Ctrl+C, then `make playground`) and give them that task's **Try It Locally** prompt from `SPEC.md`. Never run `make playground` yourself: it runs until stopped and blocks your terminal. You may run `make local-chat Q="..."` once the participant says the playground is up.
 
 ## Hard Guardrails
 
