@@ -145,38 +145,43 @@ Try it: `make local-chat Q="Berapakah had maksimum DSR untuk pemohon bergaji RM 
 
 ---
 
-## 5. Deploy Your Agent to Agent Runtime
+## 5. Deploy Your Agent to Agent Runtime & Register with Gemini Enterprise
 
-Ask Antigravity to deploy your agent:
+Ask Antigravity to deploy and publish your agent:
 
-### Prompt 5 — Deploy to Agent Runtime
+### Prompt 5 — Deploy to Agent Runtime & Publish to Gemini Enterprise
 ```text
-Deploy my agent to Agent Runtime following AGENTS.md.
+Read SPEC.md and complete Task 5: deploy my agent to Agent Runtime (OWNER=<your-name>), register it with Gemini Enterprise (`make publish-ge`), and run `make chat`, `make chat-audit`, `make memory-demo`, and `make eval-cloud`.
 ```
 
 Per the rule in [`AGENTS.md`](AGENTS.md) (and enforced by `Makefile`), Antigravity will ask for your name first and run:
 
 ```bash
 make deploy OWNER=<your-name>
+make publish-ge OWNER=<your-name>
 ```
 
-This deploys `acsm-agent-<your-name>` to Agent Runtime in `asia-southeast1` using the shared service account `acsm-lab-agent@<project>.iam.gserviceaccount.com` (~4 minutes).
+- `make deploy` deploys `acsm-agent-<your-name>` to Agent Runtime in `asia-southeast1` using the shared service account `acsm-lab-agent@<project>.iam.gserviceaccount.com` (~4 minutes), enables **Prompt-response content collection** (`OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT=SPAN_AND_EVENT` + GCS JSONL completion uploads), and registers your agent workload in **App Hub** (`make register-apphub`) so the Cloud Console **Topology** tab shows it as a registered workload.
+- `make publish-ge` registers `acsm-agent-<your-name>` into the project's **Gemini Enterprise** application so end users can invoke it from the Gemini Enterprise web UI.
 
 ---
 
-## 6. Test & Inspect Your Deployed Agent
+## 6. Test, Demonstrate Memory Bank, Run Cloud Evaluations & Inspect
 
 ```bash
 make chat Q="What is the minimum NDI floor for an applicant with 3 dependants? Cite the source."
 make chat Q="Berapakah had maksimum DSR untuk pemohon bergaji RM 4,500 sebulan?"
-make chat-audit          # tests table-level IAM boundary -> returns PERMISSION_DENIED with explanation
+make chat-audit                      # tests table-level IAM boundary -> returns PERMISSION_DENIED with explanation
+make memory-demo OWNER=<your-name>   # Session 1 saves officer branch & focus -> Session 2 recalls from Memory Bank
+make eval-cloud OWNER=<your-name>    # submits a managed EvaluationExperiment & Run to the Console Evaluation tab
 make status OWNER=<your-name>
 make trace
+make memory OWNER=<your-name>
 make audit-logs OWNER=<your-name>
 make test-governance
 ```
 
 When finished:
 ```bash
-make cleanup OWNER=<your-name> CONFIRM=yes
+make cleanup OWNER=<your-name> CONFIRM=yes   # unregisters from Gemini Enterprise & App Hub, then deletes acsm-agent-<you>
 ```

@@ -229,20 +229,26 @@ Expect a Bahasa Malaysia answer of **70%** citing `POL-CR-001-v2`, with the Engl
 
 ---
 
-## Task 5: Deploy to Agent Runtime & Verify
+## Task 5: Deploy to Agent Runtime, Publish to Gemini Enterprise, Memory Demo & Cloud Evaluation
 
 1. **Ask the participant for their name** if they have not already given `OWNER=<name>`.
 2. Run the full verification gate:
    ```bash
    make verify
    ```
-3. Deploy the participant's agent to Agent Runtime using the shared service account:
+3. Deploy the participant's agent to Agent Runtime using the shared service account (this also enables full Prompt-response content collection and registers the agent workload in App Hub for the Console **Topology** tab):
    ```bash
    make deploy OWNER=<participant-name>
    ```
-4. Stop the local playground (Ctrl+C) and test the deployed agent with the same prompts you used locally:
+4. Register the deployed agent into the project's **Gemini Enterprise** application:
+   ```bash
+   make publish-ge OWNER=<participant-name>
+   ```
+5. Stop the local playground (Ctrl+C) and test the deployed agent — policy retrieval, restricted audit IAM boundary, 2-session **Memory Bank** persistence & recall, and **Cloud Evaluation** in the Agent Engine Console:
    ```bash
    make chat Q="What is the minimum NDI floor for an applicant with 3 dependants? Cite the source."
    make chat-audit
-   make status
+   make memory-demo OWNER=<participant-name>
+   make eval-cloud OWNER=<participant-name>
+   make status OWNER=<participant-name>
    ```
