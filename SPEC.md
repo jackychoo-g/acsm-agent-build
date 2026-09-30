@@ -5,7 +5,7 @@ You are building an ADK agent for AEON Credit Service (M) Berhad (`acsm-agent-bu
 ## Fixed Platform Contract (Do Not Change)
 
 - **Models**: `gemini-3.8-flash` (`config.MODEL`) for generation; `gemini-embedding-001` (`config.EMBED_MODEL`, 768 dimensions `config.EMBED_DIM`) for embeddings. Never reference older or deprecated model versions.
-- **Region**: `asia-southeast1` (`config.REGION`) for Agent Runtime, BigQuery, and RAG Engine. Model calls use `GOOGLE_CLOUD_LOCATION=global`.
+- **Region**: `asia-southeast1` (`config.REGION`) for Agent Runtime, BigQuery, RAG Engine and Model Armor. Model calls use `GOOGLE_CLOUD_LOCATION=global`.
 - **Shared Runtime Service Account**: Every participant deploys with the shared service account `acsm-lab-agent@<project>.iam.gserviceaccount.com` (`--service-account` in `Makefile`). Never pass `--agent-identity`, never run Terraform, and never modify IAM.
 - **Per-Participant Agent Name**: Every deployed agent is named `acsm-agent-<owner>` via `make deploy OWNER=<participant-name>`. Before running `make deploy`, always ask the participant for their name if they have not provided `OWNER=<name>`.
 - **Configuration**: All environment settings come from `app/config.py` (loaded from `.lab.env` via `make configure`). Never hardcode project IDs, bucket names, or Cloud Storage URLs.
