@@ -157,12 +157,12 @@ Read SPEC.md and complete Task 5: deploy my agent to Agent Runtime (OWNER=<your-
 Per the rule in [`AGENTS.md`](AGENTS.md) (and enforced by `Makefile`), Antigravity will ask for your name first and run:
 
 ```bash
-make deploy OWNER=<your-name>
-make publish-ge OWNER=<your-name>
+make deploy OWNER=<your-name>       # also registers the agent in Gemini Enterprise
+make publish-ge OWNER=<your-name>   # optional: retry registration only if deploy reported a failure
 ```
 
 - `make deploy` deploys `acsm-agent-<your-name>` to Agent Runtime in `asia-southeast1` using the shared service account `acsm-lab-agent@<project>.iam.gserviceaccount.com` (~4 minutes), enables **Prompt-response content collection** (`OTEL_INSTRUMENTATION_GENAI_CAPTURE_MESSAGE_CONTENT=SPAN_AND_EVENT` + GCS JSONL completion uploads), and registers your agent workload in **App Hub** (`make register-apphub`) so the Cloud Console **Topology** tab shows it as a registered workload.
-- `make publish-ge` registers `acsm-agent-<your-name>` into the project's **Gemini Enterprise** application so end users can invoke it from the Gemini Enterprise web UI.
+- At the end, `make deploy` runs `make publish-ge`, which registers `acsm-agent-<your-name>` into the project's **Gemini Enterprise** application so end users can invoke it from the Gemini Enterprise web UI.
 
 ---
 
