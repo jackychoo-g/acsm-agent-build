@@ -236,11 +236,11 @@ Expect a Bahasa Malaysia answer of **70%** citing `POL-CR-001-v2`, with the Engl
    ```bash
    make verify
    ```
-3. Deploy the participant's agent to Agent Runtime using the shared service account (this also enables full Prompt-response content collection and registers the agent workload in App Hub for the Console **Topology** tab):
+3. Deploy the participant's agent to Agent Runtime using the shared service account (this also enables full Prompt-response content collection and registers the agent workload in App Hub for the Console **Topology** tab, then registers the agent in Gemini Enterprise):
    ```bash
    make deploy OWNER=<participant-name>
    ```
-4. Register the deployed agent into the project's **Gemini Enterprise** application:
+4. `make deploy` already registers the agent in the project's **Gemini Enterprise** application. Run this only if the deploy output says registration failed (it is safe to re-run):
    ```bash
    make publish-ge OWNER=<participant-name>
    ```

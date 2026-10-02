@@ -5,7 +5,7 @@ Instructions for any coding agent (Antigravity VS Code extension, Antigravity 2.
 ## Mandatory Pre-Deployment Rule (Ask Participant Name First)
 
 1. **Ask for the participant's name before deploying.** If the user asks you to deploy the agent and has not explicitly given their name (e.g. `OWNER=aisyah`), stop and ask them for their name first. Never guess the name from `gcloud config get-value account` or OS username.
-2. **Deploy only via `make deploy OWNER=<participant-name>`.** That sets `--service-name acsm-agent-<owner>` and `--service-account acsm-lab-agent@<project>.iam.gserviceaccount.com`. Never run `agents-cli deploy` directly without those flags, and never pass `--agent-identity`.
+2. **Deploy only via `make deploy OWNER=<participant-name>`.** That sets `--service-name acsm-agent-<owner>` and `--service-account acsm-lab-agent@<project>.iam.gserviceaccount.com`. It also registers the agent in Gemini Enterprise (it runs `make publish-ge` at the end), so no separate publish step is needed; re-running `make publish-ge` is safe and only updates the existing registration. Never run `agents-cli deploy` directly without those flags, and never pass `--agent-identity`.
 3. Before or after deploying, run `make whoami OWNER=<participant-name>` so the participant sees their resolved agent name `acsm-agent-<owner>`.
 
 ## Build Workflow (`SPEC.md`)
